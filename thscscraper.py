@@ -38,6 +38,13 @@ def cleanup_windows(driver):
 
             driver.close()
 
+def cleanup_browser(driver, original_window):
+    driver.switch_to.default_content()
+
+    cleanup_windows(driver)
+
+    driver.switch_to.window(original_window)
+
 def main():
     if len(sys.argv) != 2 and len(sys.argv) != 3:
         print("Usage: thscscraper.py <url> <download directory> (Optional)")
@@ -87,12 +94,15 @@ def main():
             driver.switch_to.window(driver.window_handles[1])
 
             if not switch_to_iframe_by_id(driver, "viewer"):
+                cleanup_browser(driver, original_window)
                 continue
 
             if not switch_to_iframe_by_id(driver, "sandboxFrame"):
+                cleanup_browser(driver, original_window)
                 continue
 
             if not switch_to_iframe_by_id(driver, "userHtmlFrame"):
+                cleanup_browser(driver, original_window)
                 continue
 
             download_button_found = False
@@ -119,10 +129,6 @@ def main():
 
                 print("Downloaded: " + paper_name + ". Total downloads: " + str(download_count))
 
-                driver.switch_to.default_content()
-
-                cleanup_windows(driver)
-
-                driver.switch_to.window(original_window)
+            cleanup_browser(driver, original_window)
 
 main()
