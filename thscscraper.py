@@ -21,6 +21,13 @@ def switch_to_iframe_by_id(driver, iframe_id):
 
         time.sleep(1)
 
+def cleanup_windows(driver):
+    if len(driver.window_handles) > 1:
+        for i in range(len(driver.window_handles) - 1, 1, -1):
+            driver.switch_to.window(driver.window_handles[i])
+
+            driver.close()
+
 def main():
     if len(sys.argv) != 2 and len(sys.argv) != 3:
         print("Usage: thscscraper.py <url> <download directory> (Optional)")
@@ -91,11 +98,7 @@ def main():
 
                 driver.switch_to.default_content()
 
-                driver.close()
-
-                driver.switch_to.window(driver.window_handles[1])
-
-                driver.close()
+                cleanup_windows(driver)
 
                 driver.switch_to.window(original_window)
 
