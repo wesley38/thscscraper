@@ -66,7 +66,7 @@ def main():
         firefox_options.set_preference("browser.download.folderList", 1)
 
     driver = webdriver.Firefox(options=firefox_options)
-    driver.get("https://thsconline.github.io/s/yr12/Maths/trialpapers_general.html")
+    driver.get(thsc_link)
     download_count = 0
 
     links = driver.find_elements(By.TAG_NAME, "a")
