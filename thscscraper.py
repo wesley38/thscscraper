@@ -4,7 +4,7 @@ import time
 
 from selenium import webdriver
 from selenium.common import NoSuchElementException, NoSuchFrameException
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
 def switch_to_iframe_by_id(driver, iframe_id):
@@ -37,12 +37,9 @@ def main():
             print("Error: Please use a valid directory")
             return
 
-    chrome_options = Options()
-    chrome_options.add_experimental_option("detach", True)
-
     firefox_options = webdriver.FirefoxOptions()
     firefox_options.set_preference("browser.download.manager.showWhenStarting", False)
-    firefox_options.add_argument("--headless")
+    #firefox_options.add_argument("--headless")
     if download_dir is not None:
         firefox_options.set_preference("browser.download.folderList", 2)
         firefox_options.set_preference("browser.download.dir", sys.argv[2])
@@ -93,6 +90,10 @@ def main():
                 print("Download Count: " + str(download_count))
 
                 driver.switch_to.default_content()
+
+                driver.close()
+
+                driver.switch_to.window(driver.window_handles[1])
 
                 driver.close()
 
