@@ -39,7 +39,7 @@ def main():
 
     firefox_options = webdriver.FirefoxOptions()
     firefox_options.set_preference("browser.download.manager.showWhenStarting", False)
-    #firefox_options.add_argument("--headless")
+    firefox_options.add_argument("--headless")
     if download_dir is not None:
         firefox_options.set_preference("browser.download.folderList", 2)
         firefox_options.set_preference("browser.download.dir", sys.argv[2])
