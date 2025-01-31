@@ -81,7 +81,7 @@ def main():
             original_window = driver.current_window_handle
             time_now = datetime.datetime.now().replace(microsecond=0)
 
-            print("Entering: " + paper_name + ". Elapsed time: " + str(time_now - time_now))
+            print("Entering: " + paper_name + ". Elapsed time: " + str(time_now - start_time))
             link.click()
 
             driver.switch_to.window(driver.window_handles[1])
