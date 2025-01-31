@@ -81,8 +81,7 @@ def main():
             original_window = driver.current_window_handle
             time_now = datetime.datetime.now().replace(microsecond=0)
 
-            print("Entering: " + paper_name)
-            print("Elapsed time: " + str(time_now - start_time))
+            print("Entering: " + paper_name + ". Elapsed time: " + str(time_now - time_now))
             link.click()
 
             driver.switch_to.window(driver.window_handles[1])
@@ -118,8 +117,7 @@ def main():
                 download_button.click()
                 download_count += 1
 
-                print("Downloaded: " + paper_name)
-                print("Download Count: " + str(download_count))
+                print("Downloaded: " + paper_name + ". Total downloads: " + str(download_count))
 
                 driver.switch_to.default_content()
 
