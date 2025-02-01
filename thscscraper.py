@@ -75,6 +75,7 @@ def main():
     driver = webdriver.Firefox(options=firefox_options)
     driver.get(thsc_link)
     download_count = 0
+    failed_downloads = []
 
     links = driver.find_elements(By.TAG_NAME, "a")
     paper_link_found = False
@@ -95,14 +96,17 @@ def main():
 
             if not switch_to_iframe_by_id(driver, "viewer"):
                 cleanup_browser(driver, original_window)
+                failed_downloads.append(paper_name)
                 continue
 
             if not switch_to_iframe_by_id(driver, "sandboxFrame"):
                 cleanup_browser(driver, original_window)
+                failed_downloads.append(paper_name)
                 continue
 
             if not switch_to_iframe_by_id(driver, "userHtmlFrame"):
                 cleanup_browser(driver, original_window)
+                failed_downloads.append(paper_name)
                 continue
 
             download_button_found = False
@@ -111,6 +115,7 @@ def main():
             while not download_button_found:
                 if count > 120:
                     print("Timed out waiting for download button to appear")
+                    failed_downloads.append(paper_name)
                     break
 
                 try:
@@ -124,10 +129,14 @@ def main():
                 time.sleep(1)
 
             if download_button:
-                download_button.click()
-                download_count += 1
+                try:
+                    download_button.click()
+                    download_count += 1
 
-                print("Downloaded: " + paper_name + ". Total downloads: " + str(download_count))
+                    print("Downloaded: " + paper_name + ". Total downloads: " + str(download_count))
+                except Exception as e:
+                    print("Failed to download " + paper_name + ". Error: " + str(e))
+                    failed_downloads.append(paper_name)
 
             cleanup_browser(driver, original_window)
 
