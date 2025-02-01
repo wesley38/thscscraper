@@ -4,7 +4,7 @@ import sys
 import time
 
 from selenium import webdriver
-from selenium.common import NoSuchElementException, NoSuchFrameException
+from selenium.common import NoSuchElementException, NoSuchFrameException, NoSuchWindowException
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
@@ -34,7 +34,10 @@ def switch_to_iframe_by_id(driver, iframe_id):
 def cleanup_windows(driver):
     if len(driver.window_handles) > 1:
         for i in range(len(driver.window_handles) - 1, 1, -1):
-            driver.switch_to.window(driver.window_handles[i])
+            try:
+                driver.switch_to.window(driver.window_handles[i])
+            except NoSuchWindowException:
+                continue
 
             driver.close()
 
