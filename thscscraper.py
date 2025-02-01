@@ -140,4 +140,6 @@ def main():
 
             cleanup_browser(driver, original_window)
 
+    print("Failed downloads: " + str(failed_downloads))
+
 main()
